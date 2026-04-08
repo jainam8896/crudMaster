@@ -1,17 +1,19 @@
-import bcrypt from "bcrypt";
-import Admin from "../model/admin.js";
+import { DataTypes } from "sequelize";
+import sequelize from "../src/common/config/connection.js";
 
-const adminSeed = async () => {
-  const defaultEmail = "admin123@yopmail.com";
-  const exists = await Admin.findOne({ where: { email: defaultEmail } });
+const Admin = sequelize.define(
+    'admin',
+    {
+        email:{
+            type:DataTypes.STRING,
+        },
+        password:{
+            type:DataTypes.STRING,
+        },
+    },
+    {
+        timestamps:true,
+    }
+);
 
-  if (!exists) {
-    const hashed = await bcrypt.hash("Admin@123", 10);
-    await Admin.create({
-      email: defaultEmail,
-      password: hashed,
-    });
-  }
-};
-
-export default adminSeed;
+export default Admin;
