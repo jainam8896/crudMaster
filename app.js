@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import db from "./model/index.js";
 import route from "./route/index.js";
 import "./src/common/config/jwt-strategy.js"
+import adminSeed from "./seeder/admin.js";
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ async function startServer() {
 
         await db.sequelize.sync();
         console.log('Database Sync.');
+
+        await adminSeed();
+        console.log("Admin seeded Successfully");
 
         app.listen(process.env.PORT, ()=>{
             console.log(`Server Running on port ${process.env.BASE_URL}:${process.env.PORT}`);
